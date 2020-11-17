@@ -12301,6 +12301,18 @@ string CompilerMSL::to_struct_member(const SPIRType &type, uint32_t member_type_
 		array_type = type_to_array_glsl(physical_type);
 	}
 
+	// UE Change Begin: Force disabled emit of a gl_Position field to VS output struct with disabled rasterization.
+	{
+		BuiltIn builtin = BuiltInMax;
+		const bool is_builtin = is_member_builtin(type, index, &builtin);
+		if (is_builtin && (builtin == BuiltInPosition) && (get_execution_model() == ExecutionModelVertex) &&
+		    is_rasterization_disabled)
+		{
+			return string("");
+		}
+	}
+	// UE Change End: Force disabled emit of a gl_Position field to VS output struct with disabled rasterization.
+
 	if (orig_id)
 	{
 		auto *data_type = declared_type;
@@ -16398,6 +16410,13 @@ string CompilerMSL::builtin_to_glsl(BuiltIn builtin, StorageClass storage)
 			break;
 		/* fallthrough */
 	case BuiltInPosition:
+		// UE Change Begin: Force disabled emit of a gl_Position field to VS output struct with disabled rasterization.
+		if (builtin == BuiltInPosition && get_execution_model() == ExecutionModelVertex && is_rasterization_disabled)
+		{
+			return "// " + stage_out_var_name + "." + CompilerGLSL::builtin_to_glsl(builtin, storage);
+		}
+		/* fallthrough */
+		// UE Change End: Force disabled emit of a gl_Position field to VS output struct with disabled rasterization.
 	case BuiltInPointSize:
 	case BuiltInClipDistance:
 	case BuiltInCullDistance:
