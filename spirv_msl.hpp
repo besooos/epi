@@ -456,6 +456,11 @@ public:
 		// to the Metal [[thread_execution_width]] builtin.
 		uint32_t fixed_subgroup_size = 0;
 
+		// UE Change Begin: Clamp access to SSBOs to the size of the buffer
+		// Storage buffer robustness - clamps access to SSBOs to the size of the buffer
+		bool enforce_storge_buffer_bounds = false;
+		// UE Change End: Clamp access to SSBOs to the size of the buffer
+
 		enum class IndexType
 		{
 			None = 0,
@@ -824,7 +829,10 @@ protected:
 		SPVFuncImplVariableSizedDescriptor,
 		SPVFuncImplVariableDescriptorArray,
 		SPVFuncImplPaddedStd140,
-		SPVFuncImplReduceAdd
+		SPVFuncImplReduceAdd,
+		// UE Change Begin: Clamp access to SSBOs to the size of the buffer
+		SPVFuncImplStorageBufferCoords, // Storage buffer robustness
+		// UE Change End: Clamp access to SSBOs to the size of the buffer
 	};
 
 	// If the underlying resource has been used for comparison then duplicate loads of that resource must be too
