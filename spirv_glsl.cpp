@@ -1310,7 +1310,10 @@ string CompilerGLSL::to_interpolation_qualifiers(const Bitset &flags)
 	//    res += "smooth ";
 	if (flags.get(DecorationFlat))
 		res += "flat ";
-	if (flags.get(DecorationNoPerspective))
+	// UE Change Begin: Ignore noperspective in ESSL.
+	//if (flags.get(DecorationNoPerspective))
+	if (flags.get(DecorationNoPerspective) && !options.es)
+	// UE Change End: Ignore noperspective in ESSL.
 	{
 		if (options.es)
 		{
