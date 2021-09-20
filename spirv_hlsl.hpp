@@ -150,6 +150,10 @@ public:
 		// This relies on UserTypeGOOGLE to encode the buffer type either as "structuredbuffer" or "rwstructuredbuffer"
 		// whereas the type can be extended with an optional subtype, e.g. "structuredbuffer:int".
 		bool preserve_structured_buffers = false;
+
+		// UE Change Begin: Reconstruct original name of global cbuffer declarations
+		bool reconstruct_cbuffer_names = false;
+		// UE Change End: Reconstruct original name of global cbuffer declarations
 	};
 
 	explicit CompilerHLSL(std::vector<uint32_t> spirv_)
