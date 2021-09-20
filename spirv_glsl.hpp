@@ -154,6 +154,10 @@ public:
 		// If non-zero, controls layout(num_views = N) in; in GL_OVR_multiview2.
 		uint32_t ovr_multiview_view_count = 0;
 
+		// UE Change Begin: Fixup layout locations to include padding for arrays.
+		bool fixup_layout_locations = false;
+		// UE Change End: Fixup layout locations to include padding for arrays.
+
 		enum Precision
 		{
 			DontCare,
@@ -1044,6 +1048,10 @@ protected:
 	FloatFormatter *float_formatter = nullptr;
 	std::string format_float(float value) const;
 	std::string format_double(double value) const;
+
+	// UE Change Begin: Fixup layout locations to include padding for arrays.
+	void fixup_layout_locations();
+	// UE Change End: Fixup layout locations to include padding for arrays.
 
 private:
 	void init();
