@@ -151,6 +151,10 @@ public:
 		// This workaround may cause significant performance degeneration on some Android devices.
 		bool enable_row_major_load_workaround = true;
 
+		// UE Change Begin: Reconstruct global uniforms from $Globals cbuffer
+		bool reconstruct_global_uniforms = false;
+		// UE Change End: Reconstruct global uniforms from $Globals cbuffer
+
 		// If non-zero, controls layout(num_views = N) in; in GL_OVR_multiview2.
 		uint32_t ovr_multiview_view_count = 0;
 
