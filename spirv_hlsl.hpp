@@ -153,7 +153,11 @@ public:
 
 		// UE Change Begin: Reconstruct original name of global cbuffer declarations
 		bool reconstruct_cbuffer_names = false;
-		// UE Change End: Reconstruct original name of global cbuffer declarations
+		// UE Change End: Reconstruct original name of global cbuffer declarations.
+
+		// UE Change Begin: Reconstruct original name of input/output semantics.
+		bool reconstruct_semantics = false;
+		// UE Change End: Reconstruct original name of input/output semantics.
 	};
 
 	explicit CompilerHLSL(std::vector<uint32_t> spirv_)
