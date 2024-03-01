@@ -15757,9 +15757,11 @@ string CompilerGLSL::pls_decl(const PlsInOutRemap &var)
 		qualifier = to_pls_qualifiers_glsl(variable);
 	}
 
-	SPIRType type;
+	auto op_and_basetype = pls_format_to_basetype(var.format);
+
+	SPIRType type{ op_and_basetype.first };
+	type.basetype = op_and_basetype.second;
 	type.vecsize = pls_format_to_components(var.format);
-	type.basetype = pls_format_to_basetype(var.format);
 
 	return join(to_pls_layout(var.format), qualifier, type_to_glsl(type), " ", variable_name);
 }

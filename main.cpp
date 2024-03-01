@@ -1069,7 +1069,7 @@ static vector<PlsRemap> remap_pls(const SmallVector<PLSArg> &pls_variables, cons
 		{
 			if (res.name == pls.name)
 			{
-				ret.push_back({ res.id, pls.format });
+				ret.push_back({ res.id, pls.name, pls.format });
 				found = true;
 				break;
 			}
@@ -1081,7 +1081,7 @@ static vector<PlsRemap> remap_pls(const SmallVector<PLSArg> &pls_variables, cons
 			{
 				if (res.name == pls.name)
 				{
-					ret.push_back({ res.id, pls.format });
+					ret.push_back({ res.id, pls.name, pls.format });
 					found = true;
 					break;
 				}
@@ -1483,7 +1483,7 @@ static string compile_iteration(const CLIArguments &args, std::vector<uint32_t> 
 
 	auto pls_inputs = remap_pls(args.pls_in, res.stage_inputs, &res.subpass_inputs);
 	auto pls_outputs = remap_pls(args.pls_out, res.stage_outputs, nullptr);
-	compiler->remap_pixel_local_storage(std::move(pls_inputs), std::move(pls_outputs));
+	compiler->remap_pixel_local_storage(std::move(pls_inputs), std::move(pls_outputs), {});
 
 	for (auto &ext : args.extensions)
 		compiler->require_extension(ext);

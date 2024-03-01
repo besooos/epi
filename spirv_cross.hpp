@@ -430,7 +430,7 @@ public:
 	// Arrays of separate samplers are not supported, but arrays of separate images are supported.
 	// Array of images + sampler -> Array of combined image samplers.
 	// UE Change Begin: For OpenGL based platforms we merge all samplers to a single sampler per texture.
-	void build_combined_image_samplers(bool single_sampler_per_texture);
+	void build_combined_image_samplers(bool single_sampler_per_texture = false);
 	// UE Change End: For OpenGL based platforms we merge all samplers to a single sampler per texture.
 
 	// Gets a remapping for the combined image samplers.
