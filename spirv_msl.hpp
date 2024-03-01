@@ -471,6 +471,11 @@ public:
 		// Key: binding, Value: Dimension.
 		std::map<uint32_t, int> subpass_input_dimensions;
 		// UE Change End: Use subpass input dimension specified by user options.
+		// 
+		// UE Change Begin: Support for image atomics on M2+ devices
+		// Allow implicit 2Darray to 2D conversion (for VSM)
+		bool flatten_2d_array = false;
+		// UE Change End: Support for image atomics on M2+ devices
 
 		enum class IndexType
 		{
@@ -853,6 +858,9 @@ protected:
 		//      myTex.write(spvIdentity(int4(a || b ? 1 : 0)), uint2(0))
 		SPVFuncImplIdentity,
 		// UE Change End: Identity function as workaround to bug in Metal compiler
+		// UE Change Begin: Support for Nanite on M2+ based devices
+		SPVFuncImplImage64ReadOps, // Read 2 int64 from a 32bit int texture
+		// UE Change End: Support for Nanite on M2+ based devices
 	};
 
 	// If the underlying resource has been used for comparison then duplicate loads of that resource must be too

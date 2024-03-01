@@ -728,6 +728,7 @@ void CompilerGLSL::fixup_layout_locations()
 				set_decoration(var.self, DecorationLocation, location);
 
 				uint32_t offset = type.array.size() > 0 ? to_array_size_literal(type) : 1;
+				offset *= type.columns;
 				location += offset;
 			}
 		});
@@ -1323,6 +1324,22 @@ void CompilerGLSL::emit_struct(SPIRType &type)
 
 	// UE Change Begin: Emit structure padding to support uniform buffers with offsets
 	uint32_t padding_offset = 0;
+
+	// All members of the struct are required to have decorations
+	bool found_decorations = false;
+
+	uint32_t index = 0;
+	for (auto &member : type.member_types)
+	{
+		ID &ib_type_id = type.self;
+		if (!has_member_decoration(ib_type_id, index, DecorationOffset))
+		{
+			found_decorations = false;
+			break;
+		}
+		found_decorations = true;
+		++index;
+	}
 	// UE Change End: Emit structure padding to support uniform buffers with offsets
 
 	uint32_t i = 0;
@@ -1334,7 +1351,7 @@ void CompilerGLSL::emit_struct(SPIRType &type)
 		// UE Change Begin: Emit structure padding to support uniform buffers with offsets
 		ID &ib_type_id = type.self;
 
-		if (options.pad_ubo_blocks)
+		if (options.pad_ubo_blocks && found_decorations)
 		{
 			uint32_t spirv_mbr_offset = get_member_decoration(ib_type_id, i, DecorationOffset);
 			uint32_t member_size = get_declared_struct_member_size(type, i);
