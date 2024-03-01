@@ -542,6 +542,11 @@ public:
 		return position_invariant;
 	}
 
+	// UE Change Begin: Allow precise semantic outputs
+	// Gets the list of all SPIR-V builtin variable that have been marked as precise
+	const SmallVector<spv::BuiltIn> &get_precise_outputs() const;
+	// UE Change End: Allow precise semantic outputs
+
 protected:
 	const uint32_t *stream(const Instruction &instr) const
 	{
@@ -935,6 +940,10 @@ protected:
 	uint32_t clip_distance_count = 0;
 	uint32_t cull_distance_count = 0;
 	bool position_invariant = false;
+
+	// UE Change Begin: Allow precise semantic outputs
+	SmallVector<spv::BuiltIn> precise_outputs;
+	// UE Change End: Allow precise semantic outputs
 
 	void analyze_parameter_preservation(
 	    SPIRFunction &entry, const CFG &cfg,
